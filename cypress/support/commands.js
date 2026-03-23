@@ -52,3 +52,19 @@ Cypress.Commands.add('geraToken', (email, senha) => {
             return response.body.user.id
         })
  })
+
+ Cypress.Commands.add('criarLivro', (token) => {
+  return cy.request({
+    method: 'POST',
+    url: '/books',
+    headers: { Authorization: token },
+    body: {
+      title: `Livro ${Date.now()}`,
+      author: 'Autor',
+      category: 'Testes',
+      description: 'Teste'
+    }
+  }).then(res => {
+    return res.body.id || res.body.book?.id || res.body.data?.id
+  })
+})
